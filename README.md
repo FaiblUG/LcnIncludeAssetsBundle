@@ -47,3 +47,75 @@ class AppKernel extends Kernel
     // ...
 }
 ```
+
+
+
+Usage
+============
+
+PHP
+---
+
+Example controller code:
+
+```php
+//add stylesheet
+$this->container->get('lcn.include_assets')->useStylesheet('/test_php.css');
+
+//add stylesheet with optional position (default = middle)
+$this->container->get('lcn.include_assets')->useStylesheet('/test_php_last.css', 'last');
+$this->container->get('lcn.include_assets')->useStylesheet('/test_php_first.css', 'first');
+$this->container->get('lcn.include_assets')->useStylesheet('/test_php_middle.css', 'middle');
+
+
+//add javascript
+$this->container->get('lcn.include_assets')->useJavascript('/test_php.js');
+
+//add javascript with optional position (default = middle)
+$this->container->get('lcn.include_assets')->useJavascript('/test_php_last.js', 'last');
+$this->container->get('lcn.include_assets')->useJavascript('/test_php_first.js', 'first');
+$this->container->get('lcn.include_assets')->useJavascript('/test_php_middle.js', 'middle');
+```
+
+TWIG
+----
+
+Example Twig template code:
+
+```tiwg
+{# add stylesheet #}
+{{ lcn_use_stylesheet('/test_twig.css') }}
+
+{# add stylesheet with asset helper #}
+{{ lcn_use_stylesheet(asset('test_twig_asset.css')) }}
+
+{# add stylesheet with optional position (default = middle) #}
+{{ lcn_use_stylesheet('/test_twig_first.css', 'first') }}
+{{ lcn_use_stylesheet('/test_twig_middle.css', 'middle') }}
+{{ lcn_use_stylesheet('/test_twig_last.css', 'last') }}
+
+{# include stylesheets for all positions #}
+{{ lcn_include_stylesheets() }}
+
+{# include stylesheets for single position #}
+{{ lcn_include_stylesheets('first') }}
+
+
+{# add javascript #}
+{{ lcn_use_javascript('/test_twig.js') }}
+
+{# add javascript with asset helper #}
+{{ lcn_use_javascript(asset('test_twig_asset.js')) }}
+
+{# add javascript with optional position (default = middle) #}
+{{ lcn_use_javascript('/test_twig_first.js', 'first') }}
+{{ lcn_use_javascript('/test_twig_middle.js', 'middle') }}
+{{ lcn_use_javascript('/test_twig_last.js', 'last') }}
+
+{# include javascripts for all positions #}
+{{ lcn_include_javascripts() }}
+
+{# include javascripts for single position #}
+{{ lcn_include_javascripts('first') }}
+
+```

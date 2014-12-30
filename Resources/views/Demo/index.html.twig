@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>LcnIncludeAssetsBundle Demo and Documentation</title>
+</head>
+<body>
+
+<h1>Demo usage of LcnIncludeAssetsBundle</h1>
+
+<h2>Twig Usage</h2>
+
+<h3>Stylesheets</h3>
+
+<h4>add stylesheet</h4>
+<pre class="prettyprint">
+{{ "{{ lcn_use_stylesheet('/test_twig.css') }}" }}
+{{ lcn_use_stylesheet(asset('test_twig_asset.css')) }}
+</pre>
+{{ lcn_use_stylesheet('/test_twig.css') }}
+{{ lcn_use_stylesheet(asset('test_twig_asset.css')) }}
+
+<h4>add stylesheet with optional position (default = middle)</h4>
+<pre class="prettyprint">{{ "
+{{ lcn_use_stylesheet('/test_twig_last.css', 'last') }}
+{{ lcn_use_stylesheet('/test_twig_first.css', 'first') }}
+{{ lcn_use_stylesheet('/test_twig_middle.css', 'middle') }}
+" }}
+</pre>
+{{ lcn_use_stylesheet('/test_twig_last.css', 'last') }}
+{{ lcn_use_stylesheet('/test_twig_first.css', 'first') }}
+{{ lcn_use_stylesheet('/test_twig_middle.css', 'middle') }}
+
+<h4>Include Stylesheets (all positions)</h4>
+<pre class="prettyprint">{{ "{{ lcn_include_stylesheets() }}" }}</pre>
+{{ lcn_include_stylesheets() }}
+
+<h4>Include Stylesheets (single position)</h4>
+<pre class="prettyprint">{{ "{{ lcn_include_stylesheets('first) }}" }}</pre>
+{{ lcn_include_stylesheets('first') }}
+
+
+<h3>Javascripts</h3>
+
+<h4>add javascript</h4>
+<pre class="prettyprint">
+{{ "{{ lcn_use_javascript('/test_twig.js') }}" }}
+    {{ lcn_use_javascript(asset('test_twig_asset.js')) }}
+</pre>
+{{ lcn_use_javascript('/test_twig.js') }}
+{{ lcn_use_javascript(asset('test_twig_asset.js')) }}
+
+<h4>add javascript with optional position (default = middle)</h4>
+<pre class="prettyprint">{{ "
+{{ lcn_use_javascript('/test_twig_last.js', 'last') }}
+{{ lcn_use_javascript('/test_twig_first.js', 'first') }}
+{{ lcn_use_javascript('/test_twig_middle.js', 'middle') }}
+" }}
+</pre>
+{{ lcn_use_javascript('/test_twig_last.js', 'last') }}
+{{ lcn_use_javascript('/test_twig_first.js', 'first') }}
+{{ lcn_use_javascript('/test_twig_middle.js', 'middle') }}
+
+<h4>Include javascripts (all positions)</h4>
+<pre class="prettyprint">{{ "{{ lcn_include_javascripts() }}" }}</pre>
+{{ lcn_include_javascripts() }}
+
+<h4>Include javascripts (single position)</h4>
+<pre class="prettyprint">{{ "{{ lcn_include_javascripts('first) }}" }}</pre>
+{{ lcn_include_javascripts('first') }}
+
+
+<h2>PHP Usage</h2>
+
+<pre class="prettyprint">
+//add stylesheet
+$this->container->get('lcn.include_assets')->useStylesheet('/test_php.css');
+
+//add stylesheet with optional position (default = middle)
+$this->container->get('lcn.include_assets')->useStylesheet('/test_php_last.css', 'last');
+$this->container->get('lcn.include_assets')->useStylesheet('/test_php_first.css', 'first');
+$this->container->get('lcn.include_assets')->useStylesheet('/test_php_middle.css', 'middle');
+
+
+//add javascript
+$this->container->get('lcn.include_assets')->useJavascript('/test_php.js');
+
+//add javascript with optional position (default = middle)
+$this->container->get('lcn.include_assets')->useJavascript('/test_php_last.js', 'last');
+$this->container->get('lcn.include_assets')->useJavascript('/test_php_first.js', 'first');
+$this->container->get('lcn.include_assets')->useJavascript('/test_php_middle.js', 'middle');
+</pre>
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+</body>
+</html>
+

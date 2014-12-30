@@ -1,0 +1,3 @@
+lcn_include_assets_demo:
+    path:     /lcn-include-assets/demo
+    defaults: { _controller: LcnIncludeAssetsBundle:Demo:index }
