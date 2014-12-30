@@ -1,0 +1,30 @@
+{
+  "name" : "locaine/lcn-include-assets-bundle",
+  "description" : "Include JS and CSS files in Symfony 2 as you did in Symfony 1 (use_javascript/use_stylesheet)",
+  "type" : "symfony-bundle",
+  "authors" : [{
+    "name" : "Jonas Fischer-Maeck",
+    "email" : "info@jonasfischer.net"
+  }],
+  "keywords" : [
+    "Symfony 2, Twig"
+  ],
+  "license" : [
+    "MIT"
+  ],
+  "require" : {
+  },
+  "autoload" : {
+    "psr-0" : {
+      "Lcn\\IncludeAssetsBundle" : ""
+    }
+  },
+  "target-dir" : "Lcn/IncludeAssetsBundle",
+  "repositories" : [{
+  }],
+  "extra" : {
+    "branch-alias" : {
+      "dev-master" : "1.0.0-dev"
+    }
+  }
+}
