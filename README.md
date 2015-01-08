@@ -53,6 +53,21 @@ class AppKernel extends Kernel
 Usage
 ============
 
+layout.html.twig
+----------------
+In order to be able to add CSS and JS files from within any twig template file, you have to include the assets at the very end of your layout.html.twig file:
+```tiwg
+<html>
+...
+{{ lcn_include_stylesheets() }}
+{{ lcn_include_javascripts() }}
+</body>
+```
+
+Unfortunately, this violates a generally accepted performance rule:
+Reference stylesheets as early in your html document as possible. This way, the browser can start fetching the CSS Resources while still parsing the rest of your html document.
+As our experience shows, modern web browsers are usually able to parse the whole document in a breeze and the performance penalty of referencing css files at the bottom of the page is mostly negligible. 
+
 PHP
 ---
 
