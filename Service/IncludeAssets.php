@@ -5,7 +5,7 @@ use Lcn\TemplateBlockBundle\Service\TemplateBlock;
 
 class IncludeAssets {
 
-    private $positions = array(
+    protected $positions = array(
         'first',
         'middle',
         'last',
@@ -14,10 +14,18 @@ class IncludeAssets {
     /**
      * @var TemplateBlock
      */
-    private $templateBlock;
+    protected $templateBlock;
 
-    public function __construct(TemplateBlock $templateBlock) {
+    /**
+     * @var String
+     */
+    protected $stylesheetLoaderScriptUrl;
+
+    protected $stylesheetLoaderAdded = false;
+
+    public function __construct(TemplateBlock $templateBlock, $stylesheetLoaderScriptUrl) {
         $this->templateBlock = $templateBlock;
+        $this->stylesheetLoaderScriptUrl = $stylesheetLoaderScriptUrl;
     }
 
     public function useJavascript($url, $position = 'middle') {
@@ -34,11 +42,18 @@ class IncludeAssets {
         $this->templateBlock->add($blockName, '<script>'.$code.'</script>', false);
     }
 
-    public function useStylesheet($url, $position = 'middle') {
+    public function useStylesheetAsync($url, $position = 'middle') {
         $this->validatePosition($position);
         $blockName = $this->getBlockName('stylesheet', $position);
+        $this->templateBlock->add($blockName, '<script>lcn_load_stylesheet("'.$url.'");</script>');
+    }
 
-        $this->templateBlock->add($blockName, '<link rel="stylesheet" href="'.$url.'" />');
+    protected function getStylesheetLoaderScriptOnce() {
+        if (!$this->stylesheetLoaderAdded) {
+            $this->stylesheetLoaderAdded = true;
+
+            return '<script src="'.$this->stylesheetLoaderScriptUrl.'"></script>';
+        }
     }
 
     public function includeJavascripts($position = null) {
@@ -49,8 +64,13 @@ class IncludeAssets {
         return $this->includeAssets('stylesheet', $position);
     }
 
-    private function includeAssets($type, $position = null) {
+    protected function includeAssets($type, $position = null) {
         $result = array();
+
+        if ($type === 'stylesheet') {
+            $result[] = $this->getStylesheetLoaderScriptOnce();
+        }
+
         if ($position) {
             $this->validatePosition($position);
 
@@ -68,13 +88,13 @@ class IncludeAssets {
         return implode(PHP_EOL, $result);
     }
 
-    private function validatePosition($position) {
+    protected function validatePosition($position) {
         if (!in_array($position, $this->positions)) {
             throw new \Exception('Invalid position: '.$position);
         }
     }
 
-    private function getBlockName($type, $position) {
+    protected function getBlockName($type, $position) {
         return 'lcn_include_assets_'.$type.'_'.$position;
     }
 

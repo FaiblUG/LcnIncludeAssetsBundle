@@ -13,7 +13,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```bash
-$ composer require locaine/lcn-include-assets-bundle "~1"
+$ composer require locaine/lcn-include-assets-bundle "~1.0"
 ```
 
 This command requires you to have Composer installed globally, as explained
@@ -64,9 +64,7 @@ In order to be able to add CSS and JS files from within any twig template file, 
 </body>
 ```
 
-Unfortunately, this violates a generally accepted performance rule:
-Reference stylesheets as early in your html document as possible. This way, the browser can start fetching the CSS Resources while still parsing the rest of your html document.
-As our experience shows, modern web browsers are usually able to parse the whole document in a breeze and the performance penalty of referencing css files at the bottom of the page is mostly negligible. 
+As this would violate the generally accepted performance rule of referencing stylesheets as early in your html document as possible, the stylesheets are loaded asynchronously. This way, the browser can continue rendering without blocking the UI.
 
 PHP
 ---

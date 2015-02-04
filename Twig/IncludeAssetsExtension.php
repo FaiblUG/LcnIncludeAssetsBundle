@@ -21,7 +21,7 @@ class IncludeAssetsExtension extends \Twig_Extension {
         return array(
             'lcn_use_javascript' => new \Twig_Function_Method($this, 'useJavascriptFunction'),
             'lcn_use_inline_javascript' => new \Twig_Function_Method($this, 'useInlineJavascriptFunction'),
-            'lcn_use_stylesheet' => new \Twig_Function_Method($this, 'useStylesheetFunction'),
+            'lcn_use_stylesheet_async' => new \Twig_Function_Method($this, 'useStylesheetAsyncFunction'),
             'lcn_include_javascripts' => new \Twig_Function_Method($this, 'includeJavascriptsFunction', array('is_safe' => array('html'))),
             'lcn_include_stylesheets' => new \Twig_Function_Method($this, 'includeStylesheetsFunction', array('is_safe' => array('html'))),
         );
@@ -35,8 +35,8 @@ class IncludeAssetsExtension extends \Twig_Extension {
         $this->includeAssets->useInlineJavascript($code, $position);
     }
 
-    public function useStylesheetFunction($url, $position = 'middle') {
-        $this->includeAssets->useStylesheet($url, $position);
+    public function useStylesheetAsyncFunction($url, $position = 'middle') {
+        $this->includeAssets->useStylesheetAsync($url, $position);
     }
 
     public function includeJavascriptsFunction($position = null) {
