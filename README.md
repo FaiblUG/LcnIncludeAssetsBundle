@@ -125,6 +125,8 @@ Example Twig template code:
 {{ lcn_use_javascript('/test_twig_middle.js', 'middle') }}
 {{ lcn_use_javascript('/test_twig_last.js', 'last') }}
 
+{{ lcn_use_inline_javascript("console.log('lcn_use_inline_javascript - last');", 'last') }}
+
 {# include javascripts for all positions #}
 {{ lcn_include_javascripts() }}
 

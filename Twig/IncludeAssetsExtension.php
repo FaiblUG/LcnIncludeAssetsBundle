@@ -27,6 +27,16 @@ class IncludeAssetsExtension extends \Twig_Extension {
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getGlobals()
+    {
+        return array(
+          "lcn_include_stylesheets_available" => true,
+        );
+    }
+
     public function useJavascriptFunction($url, $position = 'middle') {
         $this->includeAssets->useJavascript($url, $position);
     }

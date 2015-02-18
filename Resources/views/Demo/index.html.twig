@@ -57,6 +57,13 @@
 {{ lcn_use_javascript('//asset-test.jonasfischer.net/test.js.php?message=test_twig_first.js', 'first') }}
 {{ lcn_use_javascript('//asset-test.jonasfischer.net/test.js.php?message=test_twig_middle.js', 'middle') }}
 
+<h4>add inline javascript with optional position (default = middle)</h4>
+<pre class="prettyprint">{{ "
+{{ lcn_use_inline_javascript(\"console.log('lcn_use_inline_javascript - last');\", 'last') }}
+" }}
+</pre>
+{{ lcn_use_inline_javascript("console.log('lcn_use_inline_javascript - last');", 'last') }}
+
 <h4>Include javascripts (all positions)</h4>
 <p>This should be inserted at the bottom of your html code:</p>
 <pre class="prettyprint">{{ "{{ lcn_include_javascripts() }}" }}</pre>
@@ -64,7 +71,7 @@
 
 <h4>Include javascripts (single position)</h4>
 <pre class="prettyprint">{{ "{{ lcn_include_javascripts('first') }}" }}</pre>
-{{ lcn_include_javascripts('first') }}
+{#{ lcn_include_javascripts('first') }#}
 
 
 <h2>PHP Usage</h2>
