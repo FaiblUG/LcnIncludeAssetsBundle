@@ -22,8 +22,7 @@ class IncludeAssetsExtension extends \Twig_Extension {
             'lcn_use_javascript' => new \Twig_Function_Method($this, 'useJavascriptFunction'),
             'lcn_use_inline_javascript' => new \Twig_Function_Method($this, 'useInlineJavascriptFunction'),
             'lcn_use_stylesheet_async' => new \Twig_Function_Method($this, 'useStylesheetAsyncFunction'),
-            'lcn_include_javascripts' => new \Twig_Function_Method($this, 'includeJavascriptsFunction', array('is_safe' => array('html'))),
-            'lcn_include_stylesheets' => new \Twig_Function_Method($this, 'includeStylesheetsFunction', array('is_safe' => array('html'))),
+            'lcn_use_stylesheet' => new \Twig_Function_Method($this, 'useStylesheetFunction'),
         );
     }
 
@@ -37,24 +36,26 @@ class IncludeAssetsExtension extends \Twig_Extension {
         );
     }
 
-    public function useJavascriptFunction($url, $position = 'middle') {
-        $this->includeAssets->useJavascript($url, $position);
+    public function useJavascriptFunction($url, $position = 'middle', $async = false) {
+        $this->includeAssets->useJavascript($url, $position, $async);
     }
 
     public function useInlineJavascriptFunction($code, $position = 'middle') {
         $this->includeAssets->useInlineJavascript($code, $position);
     }
 
+    /**
+     * @deprecated
+     *
+     * @param $url
+     * @param string $position
+     */
     public function useStylesheetAsyncFunction($url, $position = 'middle') {
-        $this->includeAssets->useStylesheetAsync($url, $position);
+        $this->includeAssets->useStylesheetAsync($url, $position, true);
     }
 
-    public function includeJavascriptsFunction($position = null) {
-        return $this->includeAssets->includeJavascripts($position);
-    }
-
-    public function includeStylesheetsFunction($position = null) {
-        return $this->includeAssets->includeStylesheets($position);
+    public function useStylesheetFunction($url, $position = 'middle', $async = false) {
+        $this->includeAssets->useStylesheet($url, $position, $async);
     }
 
     /**

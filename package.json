@@ -1,7 +1,7 @@
 {
   "name": "lcn-include-assets-bundle",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Include JS and CSS files in Symfony 2 as you did in Symfony 1 (use_javascript/use_stylesheet)",
   "keywords": [
     "Symfony 2"

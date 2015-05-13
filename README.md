@@ -55,16 +55,31 @@ Usage
 
 layout.html.twig
 ----------------
-In order to be able to add CSS and JS files from within any twig template file, you have to include the assets at the very end of your layout.html.twig file:
+In order to be able to add CSS and JS files from within any twig template file, you have to include the assets in your layout.html.twig file:
 ```tiwg
 <html>
+<head>
+###lcn_include_stylesheets###
 ...
-{{ lcn_include_stylesheets() }}
-{{ lcn_include_javascripts() }}
+</head>
+
+
+###lcn_include_javascripts###
 </body>
 ```
 
-As this would violate the generally accepted performance rule of referencing stylesheets as early in your html document as possible, the stylesheets are loaded asynchronously. This way, the browser can continue rendering without blocking the UI.
+This would include the assets for all positions (first, middle and last).
+If you need to include them at different positions within your layout, you can include them seperately:
+
+```tiwg
+###lcn_include_stylesheets:first###
+###lcn_include_stylesheets:middle###
+###lcn_include_stylesheets:last###
+
+###lcn_include_javascripts:first###
+###lcn_include_javascripts:middle###
+###lcn_include_javascripts:last###
+```
 
 PHP
 ---
@@ -80,6 +95,9 @@ $this->container->get('lcn.include_assets')->useStylesheet('/test_php_last.css',
 $this->container->get('lcn.include_assets')->useStylesheet('/test_php_first.css', 'first');
 $this->container->get('lcn.include_assets')->useStylesheet('/test_php_middle.css', 'middle');
 
+//add stylesheet async
+$this->container->get('lcn.include_assets')->useStylesheet('/test_php_last_async.css', 'last', true);
+
 
 //add javascript
 $this->container->get('lcn.include_assets')->useJavascript('/test_php.js');
@@ -88,6 +106,9 @@ $this->container->get('lcn.include_assets')->useJavascript('/test_php.js');
 $this->container->get('lcn.include_assets')->useJavascript('/test_php_last.js', 'last');
 $this->container->get('lcn.include_assets')->useJavascript('/test_php_first.js', 'first');
 $this->container->get('lcn.include_assets')->useJavascript('/test_php_middle.js', 'middle');
+
+//add javascript async
+$this->container->get('lcn.include_assets')->useJavascript('/test_php_last_async.js', 'last', true);
 ```
 
 TWIG
@@ -107,11 +128,14 @@ Example Twig template code:
 {{ lcn_use_stylesheet('/test_twig_middle.css', 'middle') }}
 {{ lcn_use_stylesheet('/test_twig_last.css', 'last') }}
 
+{# add stylesheet async #}
+{{ lcn_use_stylesheet('/test_twig_last_async.css', 'last', true) }}
+
 {# include stylesheets for all positions #}
-{{ lcn_include_stylesheets() }}
+###lcn_include_stylesheets###
 
 {# include stylesheets for single position #}
-{{ lcn_include_stylesheets('first') }}
+###lcn_include_stylesheets:first###
 
 
 {# add javascript #}
@@ -128,9 +152,9 @@ Example Twig template code:
 {{ lcn_use_inline_javascript("console.log('lcn_use_inline_javascript - last');", 'last') }}
 
 {# include javascripts for all positions #}
-{{ lcn_include_javascripts() }}
+###lcn_include_javascripts###
 
 {# include javascripts for single position #}
-{{ lcn_include_javascripts('first') }}
+###lcn_include_javascripts:first###
 
 ```

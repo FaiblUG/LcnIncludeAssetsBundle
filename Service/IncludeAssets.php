@@ -21,18 +21,18 @@ class IncludeAssets {
      */
     protected $stylesheetLoaderScriptUrl;
 
-    protected $stylesheetLoaderAdded = false;
+    protected $hasAsyncStylesheets = false;
 
     public function __construct(TemplateBlock $templateBlock, $stylesheetLoaderScriptUrl) {
         $this->templateBlock = $templateBlock;
         $this->stylesheetLoaderScriptUrl = $stylesheetLoaderScriptUrl;
     }
 
-    public function useJavascript($url, $position = 'middle') {
+    public function useJavascript($url, $position = 'middle', $async = false) {
         $this->validatePosition($position);
         $blockName = $this->getBlockName('javascript', $position);
 
-        $this->templateBlock->add($blockName, '<script src="'.$url.'"></script>');
+        $this->templateBlock->add($blockName, '<script src="'.$url.'"'.($async ? ' async' : '').'></script>');
     }
 
     public function useInlineJavascript($code, $position = 'middle') {
@@ -42,16 +42,30 @@ class IncludeAssets {
         $this->templateBlock->add($blockName, '<script>'.$code.'</script>', false);
     }
 
+    /**
+     * @deprecated
+     * @param $url
+     * @param string $position
+     * @throws \Exception
+     */
     public function useStylesheetAsync($url, $position = 'middle') {
-        $this->validatePosition($position);
-        $blockName = $this->getBlockName('stylesheet', $position);
-        $this->templateBlock->add($blockName, '<script>lcn_load_stylesheet("'.$url.'");</script>');
+        $this->useStylesheet($url, $position, true);
     }
 
-    protected function getStylesheetLoaderScriptOnce() {
-        if (!$this->stylesheetLoaderAdded) {
-            $this->stylesheetLoaderAdded = true;
+    public function useStylesheet($url, $position = 'middle', $async = false) {
+        $this->validatePosition($position);
+        $blockName = $this->getBlockName('stylesheet', $position);
+        if ($async) {
+            $this->hasAsyncStylesheets = true;
+            $this->templateBlock->add($blockName, '<script>lcn_load_stylesheet("'.$url.'");</script>');
+        }
+        else {
+            $this->templateBlock->add($blockName, '<link rel="stylesheet" href="' . $url . '">');
+        }
+    }
 
+    public function includeAsyncStylesheetLoaderJavascript() {
+        if ($this->hasAsyncStylesheets) {
             return '<script src="'.$this->stylesheetLoaderScriptUrl.'"></script>';
         }
     }
@@ -66,10 +80,6 @@ class IncludeAssets {
 
     protected function includeAssets($type, $position = null) {
         $result = array();
-
-        if ($type === 'stylesheet') {
-            $result[] = $this->getStylesheetLoaderScriptOnce();
-        }
 
         if ($position) {
             $this->validatePosition($position);
