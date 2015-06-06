@@ -1,11 +1,6 @@
 Installation
 ============
 
-Step 1: Install dependencies
-----------------------------
-
-Install the required [LcnTemplateBlockBundle](https://github.com/FaiblUG/LcnTemplateBlockBundle).
-
 Step 1: Download the Bundle
 ---------------------------
 
@@ -13,7 +8,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```bash
-$ composer require locaine/lcn-include-assets-bundle "~1.0"
+$ composer require locaine/lcn-include-assets-bundle "~1.1"
 ```
 
 This command requires you to have Composer installed globally, as explained
@@ -48,6 +43,11 @@ class AppKernel extends Kernel
 }
 ```
 
+
+Step 2: Install Assets
+----------------------
+
+    app/console assets:install
 
 
 Usage

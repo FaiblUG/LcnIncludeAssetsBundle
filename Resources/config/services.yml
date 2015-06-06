@@ -1,7 +1,7 @@
 services:
     lcn.include_assets:
         class: Lcn\IncludeAssetsBundle\Service\IncludeAssets
-        arguments: [@lcn.template_block, '/bundles/lcnincludeassets/dist/lcn_load_stylesheet.min.js']
+        arguments: ['/bundles/lcnincludeassets/dist/lcn_load_stylesheet.min.js']
 
     lcn.twig.include_assets_extension:
         class: Lcn\IncludeAssetsBundle\Twig\IncludeAssetsExtension

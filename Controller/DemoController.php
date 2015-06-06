@@ -9,12 +9,12 @@ class DemoController extends Controller
     public function indexAction()
     {
         //add stylesheet
-        $this->container->get('lcn.include_assets')->useStylesheetAsync('//asset-test.jonasfischer.net/test.css.php?name=test_php.css');
+        $this->container->get('lcn.include_assets')->useStylesheet('//asset-test.jonasfischer.net/test.css.php?name=test_php.css');
 
         //add stylesheet with optional position (default = middle)
-        $this->container->get('lcn.include_assets')->useStylesheetAsync('//asset-test.jonasfischer.net/test.css.php?name=test_php_last.css', 'last');
-        $this->container->get('lcn.include_assets')->useStylesheetAsync('//asset-test.jonasfischer.net/test.css.php?name=test_php_first.css', 'first');
-        $this->container->get('lcn.include_assets')->useStylesheetAsync('//asset-test.jonasfischer.net/test.css.php?name=test_php_middle.css', 'middle');
+        $this->container->get('lcn.include_assets')->useStylesheet('//asset-test.jonasfischer.net/test.css.php?name=test_php_last.css', 'last');
+        $this->container->get('lcn.include_assets')->useStylesheet('//asset-test.jonasfischer.net/test.css.php?name=test_php_first.css', 'first');
+        $this->container->get('lcn.include_assets')->useStylesheet('//asset-test.jonasfischer.net/test.css.php?name=test_php_middle.css', 'middle');
 
         //add stylesheet async
         $this->container->get('lcn.include_assets')->useStylesheet('//asset-test.jonasfischer.net/test.css.php?name=test_php_last_async.css', 'last', true);

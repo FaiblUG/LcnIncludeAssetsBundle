@@ -5,6 +5,9 @@ use Lcn\TemplateBlockBundle\Service\TemplateBlock;
 
 class IncludeAssets {
 
+    /**
+     * @var array
+     */
     protected $positions = array(
         'first',
         'middle',
@@ -12,9 +15,30 @@ class IncludeAssets {
     );
 
     /**
-     * @var TemplateBlock
+     * @var array
      */
-    protected $templateBlock;
+    protected $assetTypes = array(
+        'stylesheet',
+        'javascript',
+    );
+
+    /**
+     * @var array
+     */
+    protected $stylesheet = array(
+        'first' => array(),
+        'middle' => array(),
+        'last' => array(),
+    );
+
+    /**
+     * @var array
+     */
+    protected $javascript = array(
+      'first' => array(),
+      'middle' => array(),
+      'last' => array(),
+    );
 
     /**
      * @var String
@@ -23,23 +47,20 @@ class IncludeAssets {
 
     protected $hasAsyncStylesheets = false;
 
-    public function __construct(TemplateBlock $templateBlock, $stylesheetLoaderScriptUrl) {
-        $this->templateBlock = $templateBlock;
+    public function __construct($stylesheetLoaderScriptUrl) {
         $this->stylesheetLoaderScriptUrl = $stylesheetLoaderScriptUrl;
     }
 
     public function useJavascript($url, $position = 'middle', $async = false) {
         $this->validatePosition($position);
-        $blockName = $this->getBlockName('javascript', $position);
 
-        $this->templateBlock->add($blockName, '<script src="'.$url.'"'.($async ? ' async' : '').'></script>');
+        $this->javascript[$position][] = '<script src="'.$url.'"'.($async ? ' async' : '').'></script>';
     }
 
     public function useInlineJavascript($code, $position = 'middle') {
         $this->validatePosition($position);
-        $blockName = $this->getBlockName('javascript', $position);
 
-        $this->templateBlock->add($blockName, '<script>'.$code.'</script>', false);
+        $this->javascript[$position][] = '<script>'.$code.'</script>';
     }
 
     /**
@@ -54,14 +75,15 @@ class IncludeAssets {
 
     public function useStylesheet($url, $position = 'middle', $async = false) {
         $this->validatePosition($position);
-        $blockName = $this->getBlockName('stylesheet', $position);
         if ($async) {
             $this->hasAsyncStylesheets = true;
-            $this->templateBlock->add($blockName, '<script>lcn_load_stylesheet("'.$url.'");</script>');
+            $tag = '<script>lcn_load_stylesheet("'.$url.'");</script>';
         }
         else {
-            $this->templateBlock->add($blockName, '<link rel="stylesheet" href="' . $url . '">');
+            $tag = '<link rel="stylesheet" href="' . $url . '">';
         }
+
+        $this->stylesheet[$position][] = $tag;
     }
 
     public function includeAsyncStylesheetLoaderJavascript() {
@@ -78,7 +100,8 @@ class IncludeAssets {
         return $this->includeAssets('stylesheet', $position);
     }
 
-    protected function includeAssets($type, $position = null) {
+    protected function includeAssets($assetType, $position = null) {
+        $this->validateAssetType($assetType);
         $result = array();
 
         if ($position) {
@@ -91,8 +114,11 @@ class IncludeAssets {
         }
 
         foreach ($positions as $position) {
-            $blockName = $this->getBlockName($type, $position);
-            $result[] = $this->templateBlock->get($blockName);
+            $tagsForType = $this->$assetType;
+            $tagsForTypeAndPosition = $tagsForType[$position];
+            if (!empty($tagsForTypeAndPosition)) {
+                $result = array_merge($result, $tagsForTypeAndPosition);
+            }
         }
 
         return implode(PHP_EOL, $result);
@@ -104,8 +130,10 @@ class IncludeAssets {
         }
     }
 
-    protected function getBlockName($type, $position) {
-        return 'lcn_include_assets_'.$type.'_'.$position;
+    protected function validateAssetType($assetType) {
+        if (!in_array($assetType, $this->assetTypes)) {
+            throw new \Exception('Invalid asset type: '.$assetType);
+        }
     }
 
 }
