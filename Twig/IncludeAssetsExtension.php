@@ -32,7 +32,7 @@ class IncludeAssetsExtension extends \Twig_Extension {
     public function getGlobals()
     {
         return array(
-          "lcn_include_stylesheets_available" => true,
+          "lcn_include_assets_available" => true,
         );
     }
 

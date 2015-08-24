@@ -158,3 +158,27 @@ Example Twig template code:
 ###lcn_include_javascripts:first###
 
 ```
+
+
+Usage in public bundles
+=======================
+
+If you are developing a shared bundle and want to make it easy to use, you can easily test if LcnIncludeAssetsBundle is installed.
+
+PHP
+---
+
+```php
+if ($container->has('lcn.include_assets')) {
+    $this->container->get('lcn.include_assets')->useJavascript('/myFile.js');
+}
+```
+
+TWIG
+---
+
+```twig
+{% if lcn_include_assets_available is defined and lcn_include_assets_available %}
+    {{ lcn_use_javascript('/myFile.js') }}
+{% endif %}
+```
