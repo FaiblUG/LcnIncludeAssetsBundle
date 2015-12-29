@@ -5,13 +5,13 @@ services:
 
     lcn.twig.include_assets_extension:
         class: Lcn\IncludeAssetsBundle\Twig\IncludeAssetsExtension
-        arguments: [@lcn.include_assets]
+        arguments: ["@lcn.include_assets"]
         tags:
             - { name: twig.extension }
 
     lcn.include_assets_response_injector_listener:
         class: Lcn\IncludeAssetsBundle\EventListener\IncludeAssetsResponseInjectorListener
-        arguments: [@lcn.include_assets]
+        arguments: ["@lcn.include_assets"]
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
