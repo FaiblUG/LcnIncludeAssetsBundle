@@ -1,28 +1,36 @@
 <?php
+
 namespace Lcn\IncludeAssetsBundle\Twig;
 
 use Lcn\IncludeAssetsBundle\Service\IncludeAssets;
 
-class IncludeAssetsExtension extends \Twig_Extension {
-
+class IncludeAssetsExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+{
     /**
      * @var IncludeAssets
      */
     private $includeAssets;
 
-    public function __construct(IncludeAssets $includeAssets) {
+    /**
+     * IncludeAssetsExtension constructor.
+     *
+     * @param IncludeAssets $includeAssets
+     */
+    public function __construct(IncludeAssets $includeAssets)
+    {
         $this->includeAssets = $includeAssets;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getFunctions() {
+    public function getFunctions()
+    {
         return array(
-            'lcn_use_javascript' => new \Twig_Function_Method($this, 'useJavascriptFunction'),
-            'lcn_use_inline_javascript' => new \Twig_Function_Method($this, 'useInlineJavascriptFunction'),
-            'lcn_use_stylesheet_async' => new \Twig_Function_Method($this, 'useStylesheetAsyncFunction'),
-            'lcn_use_stylesheet' => new \Twig_Function_Method($this, 'useStylesheetFunction'),
+            new \Twig_SimpleFunction('lcn_use_javascript', array($this, 'useJavascriptFunction')),
+            new \Twig_SimpleFunction('lcn_use_inline_javascript', array($this, 'useInlineJavascriptFunction')),
+            new \Twig_SimpleFunction('lcn_use_stylesheet_async', array($this, 'useStylesheetAsyncFunction')),
+            new \Twig_SimpleFunction('lcn_use_stylesheet', array($this, 'useStylesheetFunction')),
         );
     }
 
@@ -36,11 +44,22 @@ class IncludeAssetsExtension extends \Twig_Extension {
         );
     }
 
-    public function useJavascriptFunction($url, $position = 'middle', $async = false) {
+    /**
+     * @param        $url
+     * @param string $position
+     * @param bool   $async
+     */
+    public function useJavascriptFunction($url, $position = 'middle', $async = false)
+    {
         $this->includeAssets->useJavascript($url, $position, $async);
     }
 
-    public function useInlineJavascriptFunction($code, $position = 'middle') {
+    /**
+     * @param        $code
+     * @param string $position
+     */
+    public function useInlineJavascriptFunction($code, $position = 'middle')
+    {
         $this->includeAssets->useInlineJavascript($code, $position);
     }
 
@@ -50,11 +69,18 @@ class IncludeAssetsExtension extends \Twig_Extension {
      * @param $url
      * @param string $position
      */
-    public function useStylesheetAsyncFunction($url, $position = 'middle') {
+    public function useStylesheetAsyncFunction($url, $position = 'middle')
+    {
         $this->includeAssets->useStylesheetAsync($url, $position, true);
     }
 
-    public function useStylesheetFunction($url, $position = 'middle', $async = false) {
+    /**
+     * @param        $url
+     * @param string $position
+     * @param bool   $async
+     */
+    public function useStylesheetFunction($url, $position = 'middle', $async = false)
+    {
         $this->includeAssets->useStylesheet($url, $position, $async);
     }
 
@@ -63,7 +89,8 @@ class IncludeAssetsExtension extends \Twig_Extension {
      *
      * @return string The extension name
      */
-    public function getName() {
+    public function getName()
+    {
         return 'lcn_include_assets';
     }
 }
